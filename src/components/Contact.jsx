@@ -24,8 +24,8 @@ const Contact = () => {
           <div className="contact-left">
             <h4>Email</h4>
             <p>
-              <a href="mailto:mishra.arjon2010@gmail.com">
-                mishra.arjon2010@gmail.com
+              <a href="mailto:vanguardtelematics@gmail.com">
+                 vanguardtelematics@gmail.com
               </a>
             </p>
 
@@ -33,7 +33,7 @@ const Contact = () => {
             <p>
               <a href="tel:+919691898096">
                 +91-9691898096
-              </a> - Eduilluminate
+              </a> - VanGuard Telematics Pvt. Ltd.
             </p>
           </div>
 

@@ -129,8 +129,8 @@
     position: absolute;
     top: 75px;
     right: 0;
-    width: 260px;
-    background: #ffffff;
+    width: 70%;
+    background: #4e575b;
     flex-direction: column;
     gap: 25px;
     padding: 30px;

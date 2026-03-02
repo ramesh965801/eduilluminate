@@ -1,4 +1,6 @@
+/* ============================= */
 /* SECTION BACKGROUND */
+/* ============================= */
 .products {
   padding: 80px 10%;
   background: linear-gradient(135deg, #0f172a, #1e293b);
@@ -8,7 +10,9 @@
   overflow: hidden;
 }
 
+/* ============================= */
 /* SECTION TITLE */
+/* ============================= */
 .section-title {
   font-size: 36px;
   font-weight: 700;
@@ -26,15 +30,28 @@
   border-radius: 5px;
 }
 
+/* ============================= */
 /* GRID */
+/* ============================= */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 40px;
+  justify-items: center; /* centers card inside grid */
 }
 
+/* Center single card for single-product */
+.single-product {
+  display: flex;
+  justify-content: center;
+}
+
+/* ============================= */
 /* CARD DESIGN */
+/* ============================= */
 .product-card {
+  width: 100%;          /* perfect width for grid */
+  max-width: 350px;     /* card max width */
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
   border-radius: 20px;
@@ -43,6 +60,7 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   transform: translateY(50px);
   opacity: 0;
+  cursor: pointer;
 }
 
 /* IMAGE */
@@ -74,7 +92,34 @@
   box-shadow: 0 20px 40px rgba(56, 189, 248, 0.3);
 }
 
+/* ============================= */
+/* BUTTON BELOW CARD */
+/* ============================= */
+.buy-wrapper {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.buy-wrapper .more-products-btn {
+  padding: 12px 35px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #00e5ff, #0072ff);
+  color: white;
+  transition: 0.3s ease;
+}
+
+.buy-wrapper .more-products-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================= */
 /* ANIMATIONS */
+/* ============================= */
 .slide-left {
   animation: slideLeft 1s forwards;
 }
@@ -122,13 +167,18 @@
   }
 }
 
+/* ============================= */
 /* RESPONSIVE DESIGN */
+/* ============================= */
+
+/* Tablet */
 @media (max-width: 992px) {
   .product-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
+/* Mobile */
 @media (max-width: 768px) {
   .product-grid {
     grid-template-columns: 1fr;
@@ -138,31 +188,17 @@
     font-size: 28px;
   }
 
+  .product-card {
+    max-width: 100%;
+  }
+
   .product-card img {
     height: 180px;
   }
-}
-/* ============================= */
-/* MORE PRODUCTS BUTTON */
-/* ============================= */
-.more-products-wrapper {
-  text-align: center;
-  margin-top: 50px;
-}
 
-.more-products-btn {
-  padding: 14px 35px;
-  font-size: 16px;
-  font-weight: 600;
-  border-radius: 30px;
-  border: none;
-  cursor: pointer;
-  background: linear-gradient(135deg, #00e5ff, #0072ff);
-  color: white;
-  transition: 0.3s ease;
-}
-
-.more-products-btn:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  .buy-wrapper .more-products-btn {
+    width: 80%;      /* button responsive on small screens */
+    padding: 12px 0;
+    font-size: 15px;
+  }
 }

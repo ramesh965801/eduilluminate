@@ -5,38 +5,31 @@ import productData from "./productData";
 
 const Products = () => {
   const navigate = useNavigate();
+  const product = productData[0]; // Only one product
 
   return (
     <section className="products">
       <h2 className="section-title">Our Product</h2>
 
-      <div className="product-grid">
-        {productData.slice(0, 3).map((product, index) => (
-          <div
-            key={product.id}
-            className={`product-card ${
-              index === 0
-                ? "slide-left"
-                : index === 1
-                ? "slide-up"
-                : "slide-right"
-            }`}
-            onClick={() => navigate(`/product/${product.id}`)}
-          >
-            <img src={product.image} alt={product.title} />
-            <h3>{product.title}</h3>
-            <p>{product.details}</p>
-          </div>
-        ))}
+      {/* Keep grid layout */}
+      <div className="product-grid single-product">
+        <div
+          className="product-card slide-up"
+          onClick={() => navigate(`/product/${product.id}`)}
+        >
+          <img src={product.image} alt={product.title} />
+          <h3>{product.title}</h3>
+          <p>{product.details}</p>
+        </div>
       </div>
 
-      {/* ✅ More Products Button */}
-      <div className="more-products-wrapper">
+      {/* Buy Now button BELOW card */}
+      <div className="buy-wrapper">
         <button
           className="more-products-btn"
-          onClick={() => navigate("/products")}
+          onClick={() => navigate(`/product/${product.id}`)}
         >
-          View More Products
+          Buy Now
         </button>
       </div>
     </section>
