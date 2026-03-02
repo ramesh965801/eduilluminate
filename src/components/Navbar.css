@@ -1,100 +1,145 @@
-/* Navbar Container */
+/* ============================= */
+/* NAVBAR CONTAINER */
+/* ============================= */
+
 .navbar {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
+    height: 85px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 60px;
-    background-color: #d5e2e8;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-
+    padding: 0 60px;
+    background-color: #576971;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     z-index: 1000;
 }
 
-/* Logo Styling */
+/* ============================= */
+/* LOGO */
+/* ============================= */
+
 .logo {
-  font-size: 29px;
-  font-weight: 800;
-  color: #5e0847;
+  display: flex;
+  align-items: center;
 }
 
-/* Nav Links Container */
+.logo img {
+  width: 85px;      /* 🔥 Proper wide logo */
+  height: auto;      /* maintain ratio */
+  object-fit: contain;
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+
+.logo img:hover {
+  transform: scale(1.05);
+}
+
+/* ============================= */
+/* NAV LINKS */
+/* ============================= */
+
 .nav-links {
   list-style: none;
   display: flex;
-  gap: 40px;
-  padding: 0;
+  gap: 35px;
   margin: 0;
+  padding: 0;
 }
 
-/* Remove underline from Link */
 .nav-links a {
-  text-decoration: none;     /* ✅ Remove underline */
-  color: #a45b5b;             /* Default text color */
-  font-size: 20px;
-  font-weight: 600;
-  transition: 0.3s ease;
-  position: relative;
+    text-decoration: none;
+    color: #fdfdfd;
+    font-size: 19px;
+    font-weight: 700;
+    transition: 0.3s ease;
+    position: relative;
 }
 
-/* Hover Effect */
+/* Hover */
 .nav-links a:hover {
-  color: #0077ff;             /* Hover color */
+  color: #0077ff;
 }
 
-/* Active Link */
+/* Active */
 .nav-links a.active {
   color: #0077ff;
 }
 
-/* Active Underline Effect */
-.nav-links a.active::after {
+/* Animated underline */
+.nav-links a::after {
   content: "";
   position: absolute;
-  width: 100%;
-  height: 3px;
-  background-color: #0077ff;
-  bottom: -6px;
+  width: 0%;
+  height: 2px;
+  background: #0077ff;
   left: 0;
-  border-radius: 2px;
+  bottom: -6px;
+  transition: 0.3s ease;
 }
 
-/* Mobile Menu Icon */
+.nav-links a:hover::after,
+.nav-links a.active::after {
+  width: 100%;
+}
+
+/* ============================= */
+/* MENU ICON */
+/* ============================= */
+
 .menu-icon {
   display: none;
   font-size: 28px;
   cursor: pointer;
 }
 
-/* Responsive */
+/* ============================= */
+/* RESPONSIVE DESIGN */
+/* ============================= */
+
+@media (max-width: 992px) {
+  .navbar {
+    padding: 0 30px;
+  }
+
+  .logo img {
+    width: 200px;
+  }
+}
+
 @media (max-width: 768px) {
+
+  .navbar {
+    height: 75px;
+    padding: 0 20px;
+  }
 
   .menu-icon {
     display: block;
+  }
+
+  .logo img {
+    width: 170px;
   }
 
   .nav-links {
     position: absolute;
     top: 75px;
     right: 0;
+    width: 260px;
     background: #ffffff;
-    width: 250px;
     flex-direction: column;
     gap: 25px;
-    padding: 25px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     transform: translateX(100%);
-    transition: 0.3s ease-in-out;
+    transition: 0.3s ease;
   }
 
   .nav-links.open {
     transform: translateX(0);
-  }
-
-  .nav-links a {
-    font-size: 20px;
   }
 }

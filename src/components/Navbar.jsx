@@ -1,20 +1,25 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
+import logo from "../assets/images/loogo.png";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
+   
     <nav className="navbar">
-      <div className="logo">Eduilluminate</div>
 
-      <div
-        className={`menu-icon ${menuOpen ? "active" : ""}`}
-        onClick={() => setMenuOpen(!menuOpen)}
-      >
-        ☰
-      </div>
+  <div className="logo">
+    <img src={logo} alt="Eduilluminate Logo" />
+  </div>
+
+  <div
+    className={`menu-icon ${menuOpen ? "active" : ""}`}
+    onClick={() => setMenuOpen(!menuOpen)}
+  >
+    ☰
+  </div>
 
       <ul className={`nav-links ${menuOpen ? "open" : ""}`}>
         <li><NavLink to="/" end>Home</NavLink></li>
