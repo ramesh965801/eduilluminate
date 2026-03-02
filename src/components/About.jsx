@@ -13,10 +13,7 @@ const About = () => {
           <h2>About Us</h2>
           <div className="underline"></div>
           <p>
-            Welcome to Eduilluminate, where curiosity meets knowledge. Our mission
-            is to offer insightful, well-researched articles that broaden your
-            understanding on a multitude of topics. From science to arts, we cover
-            an extensive range of subjects to fuel your learning journey.
+            Welcome to VanGuard Telematics Pvt. Ltd., where innovation drives connectivity. Our mission is to provide cutting-edge telematics solutions that empower businesses with real-time insights and smarter decision-making. From fleet management to IoT integration, we deliver technology that transforms operations and enhances efficiency.
           </p>
         </div>
       </div>
@@ -28,10 +25,10 @@ const About = () => {
           <h2>Our Vision</h2>
           <div className="underline"></div>
           <p>
-            At Eduilluminate, we aim to empower learners globally. By providing
-            engaging and well-researched content, we inspire curiosity and
-            facilitate growth across a wide range of subjects, making learning
-            accessible, meaningful, and enjoyable for everyone.
+            At VanGuard Telematics, we aim to empower businesses globally. By providing
+            cutting-edge telematics solutions, we inspire innovation and
+            facilitate growth across a wide range of industries, making connectivity
+            accessible, meaningful, and efficient for everyone.
           </p>
         </div>
       </div>

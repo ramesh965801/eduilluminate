@@ -4,11 +4,11 @@ const productData = [
   {
     id: 1,
     image: product1,
-    title: "Online Booking",
+    title: "Vehicle Accident Alert System",
     price: 199,
     rating: 4.8,
     details:
-      "Our Online Booking system provides real-time availability, secure payments, booking management dashboard, and automated notifications."
+      "Our Vehicle Accident Alert System provides real-time monitoring and alerts for vehicle accidents, helping to ensure safety and quick response."
   }
   
 ];

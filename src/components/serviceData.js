@@ -1,25 +1,25 @@
-const serviceData = [
+const productData = [
   {
     id: 1,
-    icon: "📅",
-    title: "Online Booking",
+    icon: "🚗",
+    title: "Smart Vehicle Tracker",
     description:
-      "Easy and secure online booking system with real-time updates and instant confirmation."
+      "Advanced GPS tracking device for real-time location monitoring and fleet management."
   },
   {
     id: 2,
-    icon: "🎓",
-    title: "Interactive Training",
+    icon: "📊",
+    title: "Telematics Dashboard",
     description:
-      "Live expert-led sessions with hands-on practical experience and real-time mentorship."
+      "Comprehensive analytics platform providing insights on vehicle usage, performance, and efficiency."
   },
   {
     id: 3,
-    icon: "🌍",
-    title: "Global Manufacturing",
+    icon: "🔋",
+    title: "IoT Sensor Module",
     description:
-      "High-quality production services following global standards and industry certifications."
+      "Smart sensor solution for monitoring temperature, fuel levels, and engine health remotely."
   }
 ];
 
-export default serviceData;
+export default productData;
