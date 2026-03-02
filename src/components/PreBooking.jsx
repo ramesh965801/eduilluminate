@@ -23,92 +23,67 @@ const PreBooking = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert(`Pre-Booking Successful for ${formData.name}!`);
-    navigate(-1); // Go back to product page
-  };
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const response = await fetch("http://localhost:5000/api/prebooking", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ product_id: product.id, ...formData })
+    });
 
-  if (!product) {
-    return <h2 style={{ textAlign: "center" }}>Product Not Found</h2>;
+    const data = await response.json();
+
+    if (response.ok) {
+      alert(`Pre-Booking Successful! Booking ID: ${data.id}`);
+      navigate(-1);
+    } else {
+      alert(`Error: ${data.message}`);
+    }
+  } catch (err) {
+    console.error(err);  // ← This is where 'Failed to fetch' comes from
+    alert("Something went wrong while saving your pre-booking.");
   }
+};
+  if (!product) return <h2 style={{ textAlign: "center" }}>Product Not Found</h2>;
 
   return (
     <div className="prebooking-page">
       <Navbar />
-
       <div className="prebooking-wrapper">
-       <button className="back-btn" onClick={() => navigate(-1)}>
-  <span className="arrow"></span>← Back
-</button>
+        <button className="back-btn" onClick={() => navigate(-1)}>
+          <span className="arrow"></span>← Back
+        </button>
 
         <div className="prebooking-card">
           <h1>Pre-Booking for {product.title}</h1>
           <p>Please fill the details below to reserve your product.</p>
 
           <form className="prebooking-form" onSubmit={handleSubmit}>
-            <label>
-              Full Name
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
+            <label>Full Name
+              <input type="text" name="name" value={formData.name} onChange={handleChange} required />
             </label>
 
-            <label>
-              Email
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
+            <label>Email
+              <input type="email" name="email" value={formData.email} onChange={handleChange} required />
             </label>
 
-            <label>
-              Phone
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                required
-              />
+            <label>Phone
+              <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required />
             </label>
 
-            <label>
-              Quantity
-              <input
-                type="number"
-                name="quantity"
-                min="1"
-                value={formData.quantity}
-                onChange={handleChange}
-                required
-              />
+            <label>Quantity
+              <input type="number" name="quantity" min="1" value={formData.quantity} onChange={handleChange} required />
             </label>
 
-            <label>
-              Address
-              <textarea
-                name="address"
-                value={formData.address}
-                onChange={handleChange}
-                required
-              />
+            <label>Address
+              <textarea name="address" value={formData.address} onChange={handleChange} required />
             </label>
 
-            <button type="submit" className="submit-btn">
-              Submit Pre-Booking
-            </button>
+            <button type="submit" className="submit-btn">Submit Pre-Booking</button>
           </form>
         </div>
       </div>
-
       <Footer />
     </div>
   );
