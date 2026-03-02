@@ -1,0 +1,166 @@
+/* ============================= */
+/* PAGE LAYOUT */
+/* ============================= */
+
+.details-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f4f6f9;
+}
+
+.details-content-wrapper {
+  flex: 1;
+  padding: 60px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ============================= */
+/* BACK BUTTON */
+/* ============================= */
+
+.back-btn {
+  align-self: flex-start;
+  margin-bottom: 20px;
+  padding: 8px 18px;
+  background: #081349;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.back-btn:hover {
+  background: #142a75;
+}
+
+/* ============================= */
+/* CARD */
+/* ============================= */
+
+.details-card {
+  width: 100%;
+  max-width: 1100px;
+  display: flex;
+  gap: 50px;
+  background: white;
+  padding: 40px;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  flex-wrap: wrap;
+}
+
+.details-card img {
+  width: 420px;
+  max-width: 100%;
+  border-radius: 12px;
+}
+
+/* ============================= */
+/* CONTENT */
+/* ============================= */
+
+.details-content {
+  flex: 1;
+}
+
+.details-content h1 {
+  font-size: 32px;
+  margin-bottom: 15px;
+  color: #081349;
+}
+
+.details-content p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #555;
+  margin-top: 20px;
+}
+
+/* ============================= */
+/* PRICE + RATING */
+/* ============================= */
+
+.price-rating {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  margin-bottom: 10px;
+}
+
+.price {
+  font-size: 24px;
+  font-weight: bold;
+  color: #1c3faa;
+}
+
+.rating {
+  font-size: 20px;
+  color: #ff9800;
+}
+
+.rating-number {
+  font-size: 14px;
+  color: #555;
+  margin-left: 8px;
+}
+
+/* ============================= */
+/* BUTTON */
+/* ============================= */
+
+.action-btn {
+  margin-top: 25px;
+  padding: 12px 28px;
+  background: linear-gradient(45deg, #081349, #1c3faa);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.action-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(28, 63, 170, 0.3);
+}
+
+/* ============================= */
+/* RESPONSIVE */
+/* ============================= */
+
+@media (max-width: 992px) {
+  .details-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .price-rating {
+    justify-content: center;
+  }
+
+  .back-btn {
+    align-self: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .details-content h1 {
+    font-size: 24px;
+  }
+
+  .price {
+    font-size: 20px;
+  }
+
+  .rating {
+    font-size: 18px;
+  }
+
+  .action-btn {
+    width: 100%;
+  }
+}
