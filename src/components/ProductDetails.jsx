@@ -17,21 +17,6 @@ const ProductDetails = () => {
     return <h2 style={{ textAlign: "center" }}>Product Not Found</h2>;
   }
 
-  // ⭐ Generate Stars
-  const renderStars = (rating) => {
-    const fullStars = Math.floor(rating);
-    const halfStar = rating % 1 !== 0;
-    const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
-
-    return (
-      <>
-        {"★".repeat(fullStars)}
-        {halfStar && "☆"}
-        {"☆".repeat(emptyStars)}
-      </>
-    );
-  };
-
   return (
     <div className="details-page">
       <Navbar />
@@ -47,21 +32,18 @@ const ProductDetails = () => {
           <div className="details-content">
             <h1>{product.title}</h1>
 
-            {/* PRICE + RATING */}
+            {/* PRICE */}
             <div className="price-rating">
-              <span className="price">${product.price}</span>
-              <span className="rating">
-                {renderStars(product.rating)}
-                <span className="rating-number">
-                  ({product.rating})
-                </span>
-              </span>
+              <span className="price">Price Yet To Be Released</span>
             </div>
 
             <p>{product.details}</p>
 
-            <button className="action-btn">
-              Buy / Book Now
+            <button
+              className="action-btn"
+              onClick={() => navigate(`/prebooking/${product.id}`)}
+            >
+              Pre-Booking
             </button>
           </div>
         </div>

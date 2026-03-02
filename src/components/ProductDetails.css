@@ -10,12 +10,13 @@
 }
 
 .details-content-wrapper {
-  flex: 1;
-  padding: 60px 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 35px;
+    flex: 1;
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 35px;
+    background: cadetblue;
 }
 
 /* ============================= */
@@ -43,15 +44,15 @@
 /* ============================= */
 
 .details-card {
-  width: 100%;
-  max-width: 1100px;
-  display: flex;
-  gap: 50px;
-  background: white;
-  padding: 40px;
-  border-radius: 18px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-  flex-wrap: wrap;
+    width: 100%;
+    max-width: 1100px;
+    display: flex;
+    gap: 50px;
+    background: #90b0bb;
+    padding: 40px;
+    border-radius: 18px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    flex-wrap: wrap;
 }
 
 .details-card img {
@@ -93,6 +94,7 @@
 }
 
 .price {
+  font-family: cursive;
   font-size: 24px;
   font-weight: bold;
   color: #1c3faa;
@@ -144,7 +146,7 @@
   }
 
   .back-btn {
-    align-self: center;
+    align-self: left;
   }
 }
 
