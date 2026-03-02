@@ -29,7 +29,7 @@ const Products = () => {
           className="more-products-btn"
           onClick={() => navigate(`/product/${product.id}`)}
         >
-          Buy Now
+          Pre Booking Now
         </button>
       </div>
     </section>
