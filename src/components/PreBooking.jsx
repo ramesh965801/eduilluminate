@@ -26,7 +26,7 @@ const PreBooking = () => {
  const handleSubmit = async (e) => {
   e.preventDefault();
   try {
-    const response = await fetch("http://localhost:5000/api/prebooking", {
+    const response = await fetch("https://eduilluminate.vercel.app/api/prebooking", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ product_id: product.id, ...formData })

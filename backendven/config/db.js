@@ -2,8 +2,8 @@ const mysql = require("mysql2");
 
 const db = mysql.createConnection({
   host: "localhost",
-  user: "root",       // your MySQL username
-  password: "Ramesh@9658", // your MySQL password
+  user: "root",       
+  password: "Ramesh@9658",
   database: "prebooking_db"
 });
 
