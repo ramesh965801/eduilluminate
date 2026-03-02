@@ -5,13 +5,16 @@ const prebookingRoutes = require("./routes/prebooking");
 const db = require("./config/db");
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
-// Middleware
-app.use(cors());
+// ✅ Allow requests only from your frontend
+app.use(cors({
+  origin: "https://eduilluminate.vercel.app"
+}));
+
 app.use(bodyParser.json());
 
-// Ensure table exists (optional, safe)
+// Create table if it doesn't exist
 const createTableQuery = `
 CREATE TABLE IF NOT EXISTS prebookings (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -24,6 +27,7 @@ CREATE TABLE IF NOT EXISTS prebookings (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )
 `;
+
 db.query(createTableQuery, (err) => {
   if (err) throw err;
   console.log("Pre-booking table ready");
@@ -34,5 +38,5 @@ app.use("/api/prebooking", prebookingRoutes);
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

@@ -1,9 +1,9 @@
 const mysql = require("mysql2");
 
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",       
-  password: "Ramesh@9658",
+  host: "localhost",          // Or your cloud DB host
+  user: "root",               // DB username
+  password: "Ramesh@9658",   // DB password
   database: "prebooking_db"
 });
 

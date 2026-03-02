@@ -26,7 +26,7 @@ const PreBooking = () => {
  const handleSubmit = async (e) => {
   e.preventDefault();
   try {
-    const response = await fetch("https://eduilluminate.vercel.app/api/prebooking", {
+    const response = await fetch("https://prebooking-backend.onrender.com/api/prebooking", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ product_id: product.id, ...formData })
@@ -41,10 +41,12 @@ const PreBooking = () => {
       alert(`Error: ${data.message}`);
     }
   } catch (err) {
-    console.error(err);  // ← This is where 'Failed to fetch' comes from
+    console.error(err);
     alert("Something went wrong while saving your pre-booking.");
   }
 };
+
+
   if (!product) return <h2 style={{ textAlign: "center" }}>Product Not Found</h2>;
 
   return (
