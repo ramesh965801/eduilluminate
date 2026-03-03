@@ -1,15 +1,18 @@
 const mysql = require("mysql2");
 
 const db = mysql.createConnection({
-  host: "localhost",          // Or your cloud DB host
-  user: "root",               // DB username
-  password: "Ramesh@9658",   // DB password
+  host: "localhost",
+  user: "root",
+  password: "Ramesh@9658",
   database: "prebooking_db"
 });
 
-db.connect(err => {
-  if (err) throw err;
-  console.log("Connected to MySQL database");
+db.connect((err) => {
+  if (err) {
+    console.error("❌ Database connection failed:", err);
+  } else {
+    console.log("✅ Connected to MySQL");
+  }
 });
 
 module.exports = db;

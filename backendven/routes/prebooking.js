@@ -1,8 +1,36 @@
 const express = require("express");
 const router = express.Router();
-const { createPreBooking } = require("../controllers/prebookingController");
+const db = require("../config/db");
 
-// POST /api/prebooking
-router.post("/", createPreBooking);
+// POST - Save Prebooking
+router.post("/", (req, res) => {
+  const { product_id, name, email, phone, quantity, address } = req.body;
+
+  if (!product_id || !name || !email || !phone || !quantity || !address) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  const sql = `
+    INSERT INTO prebookings 
+    (product_id, name, email, phone, quantity, address) 
+    VALUES (?, ?, ?, ?, ?, ?)
+  `;
+
+  db.query(
+    sql,
+    [product_id, name, email, phone, quantity, address],
+    (err, result) => {
+      if (err) {
+        console.error("❌ Insert Error:", err);
+        return res.status(500).json({ message: "Database error" });
+      }
+
+      res.status(201).json({
+        message: "Prebooking saved successfully",
+        id: result.insertId
+      });
+    }
+  );
+});
 
 module.exports = router;

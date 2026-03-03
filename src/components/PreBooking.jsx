@@ -23,10 +23,10 @@ const PreBooking = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
- const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
   try {
-    const response = await fetch("https://prebooking-backend.onrender.com/api/prebooking", {
+    const response = await fetch("http://localhost:5000/api/prebooking", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ product_id: product.id, ...formData })
