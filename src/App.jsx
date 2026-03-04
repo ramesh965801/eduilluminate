@@ -22,9 +22,9 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/aboutus" element={<Aboutus />} />
-        <Route path="/prebooking/:id" element={<PreBooking />} />
+       <Route path="/prebooking/:id" element={<PreBooking />} />
 
-        <Route path="/admin123" element={<AdminDashboard />} />
+        <Route path="/admin123AvhfGrsFouTRseoPW" element={<AdminDashboard />} />
 
       </Routes>
     </Router>

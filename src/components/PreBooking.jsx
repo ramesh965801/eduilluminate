@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import productData from "./productData";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import "./PreBooking.css";
@@ -8,7 +7,9 @@ import "./PreBooking.css";
 const PreBooking = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const product = productData.find(item => item.id === parseInt(id));
+
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -18,73 +19,178 @@ const PreBooking = () => {
     address: "",
   });
 
+  const API = "http://localhost:5000/api/admin";
+
+  // ✅ Fetch product from backend
+  useEffect(() => {
+    fetch(`${API}/products`)
+      .then(res => res.json())
+      .then(data => {
+        const foundProduct = data.find(
+          (item) => item.id === parseInt(id)
+        );
+        setProduct(foundProduct);
+      })
+      .catch(err => console.error("Product fetch error:", err));
+  }, [id]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const response = await fetch("http://localhost:5000/api/prebooking", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ product_id: product.id, ...formData })
-    });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    const data = await response.json();
+    if (!product) return;
 
-    if (response.ok) {
-      alert(`Pre-Booking Successful! Booking ID: ${data.id}`);
-      navigate(-1);
-    } else {
-      alert(`Error: ${data.message}`);
+    setLoading(true);
+
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/prebooking",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            product_id: product.id,
+            ...formData
+          })
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok && (data.success || data.id)) {
+        alert(
+          `✅ Pre-Booking Successful!\nBooking ID: ${
+            data.bookingId || data.id
+          }`
+        );
+
+        // Clear form after success
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          quantity: 1,
+          address: "",
+        });
+
+        navigate(-1);
+      } else {
+        alert(`❌ ${data.message || "Failed to submit pre-booking"}`);
+      }
+    } catch (err) {
+      console.error("Pre-booking error:", err);
+      alert("Something went wrong while saving your pre-booking.");
     }
-  } catch (err) {
-    console.error(err);
-    alert("Something went wrong while saving your pre-booking.");
+
+    setLoading(false);
+  };
+
+  if (!product) {
+    return (
+      <div className="prebooking-page">
+        <Navbar />
+        <h2 style={{ textAlign: "center", marginTop: "100px" }}>
+          Loading Product...
+        </h2>
+        <Footer />
+      </div>
+    );
   }
-};
-
-
-  if (!product) return <h2 style={{ textAlign: "center" }}>Product Not Found</h2>;
 
   return (
     <div className="prebooking-page">
       <Navbar />
       <div className="prebooking-wrapper">
-        <button className="back-btn" onClick={() => navigate(-1)}>
-          <span className="arrow"></span>← Back
+
+        <button
+          className="back-btn"
+          onClick={() => navigate(-1)}
+        >
+          ← Back
         </button>
 
         <div className="prebooking-card">
           <h1>Pre-Booking for {product.title}</h1>
-          <p>Please fill the details below to reserve your product.</p>
+          <p>
+            Please fill the details below to reserve your product.
+          </p>
 
-          <form className="prebooking-form" onSubmit={handleSubmit}>
-            <label>Full Name
-              <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+          <form
+            className="prebooking-form"
+            onSubmit={handleSubmit}
+          >
+            <label>
+              Full Name
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
             </label>
 
-            <label>Email
-              <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+            <label>
+              Email
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
             </label>
 
-            <label>Phone
-              <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required />
+            <label>
+              Phone
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                required
+              />
             </label>
 
-            <label>Quantity
-              <input type="number" name="quantity" min="1" value={formData.quantity} onChange={handleChange} required />
+            <label>
+              Quantity
+              <input
+                type="number"
+                name="quantity"
+                min="1"
+                value={formData.quantity}
+                onChange={handleChange}
+                required
+              />
             </label>
 
-            <label>Address
-              <textarea name="address" value={formData.address} onChange={handleChange} required />
+            <label>
+              Address
+              <textarea
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                required
+              />
             </label>
 
-            <button type="submit" className="submit-btn">Submit Pre-Booking</button>
+            <button
+              type="submit"
+              className="submit-btn"
+              disabled={loading}
+            >
+              {loading ? "Submitting..." : "Submit Pre-Booking"}
+            </button>
           </form>
         </div>
+
       </div>
       <Footer />
     </div>
