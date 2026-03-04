@@ -38,6 +38,7 @@ const Footer = () => {
               <li><Link to="/guides">Guides</Link></li>
               <li><Link to="/support">Support</Link></li>
               <li><Link to="/faq">FAQ</Link></li>
+             <li><Link to="/admin123">Admin</Link></li>
             </ul>
           </div>
 
