@@ -1,7 +1,52 @@
-import React from "react";
+import React, { useState } from "react";
+import emailjs from "@emailjs/browser";
 import "./Contact.css";
 
 const Contact = () => {
+
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    message: ""
+  });
+
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    emailjs.send(
+      "service_9f4nynd", 
+      "template_9phfuvc", 
+      formData,
+      "ixznySGMOAcVcbXCE" 
+    )
+    .then(() => {
+      alert("Message Sent Successfully!");
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        message: ""
+      });
+      setLoading(false);
+    })
+    .catch((error) => {
+      console.error(error);
+      alert("Failed to send message.");
+      setLoading(false);
+    });
+  };
+
   return (
     <section className="contact-section">
 
@@ -20,12 +65,11 @@ const Contact = () => {
       <div className="contact-card">
 
         <div className="contact-top">
-
           <div className="contact-left">
             <h4>Email</h4>
             <p>
               <a href="mailto:vanguardtelematics@gmail.com">
-                 vanguardtelematics@gmail.com
+                vanguardtelematics@gmail.com
               </a>
             </p>
 
@@ -44,21 +88,50 @@ const Contact = () => {
             <h4>Working Hours</h4>
             <p>Mon - Fri : 08:00 AM - 07:00 PM</p>
           </div>
-
         </div>
 
-        <form className="contact-form">
+        <form className="contact-form" onSubmit={handleSubmit}>
 
           <div className="form-row">
-            <input type="text" placeholder="Your Name" required />
-            <input type="tel" placeholder="Phone Number" required />
+            <input
+              type="text"
+              name="name"
+              placeholder="Your Name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="tel"
+              name="phone"
+              placeholder="Phone Number"
+              value={formData.phone}
+              onChange={handleChange}
+              required
+            />
           </div>
 
-          <input type="email" placeholder="Email Address" required />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email Address"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
 
-          <textarea placeholder="Your Message" rows="4" required></textarea>
+          <textarea
+            name="message"
+            placeholder="Your Message"
+            rows="4"
+            value={formData.message}
+            onChange={handleChange}
+            required
+          ></textarea>
 
-          <button type="submit">Send Message</button>
+          <button type="submit">
+            {loading ? "Sending..." : "Send Message"}
+          </button>
 
         </form>
 
