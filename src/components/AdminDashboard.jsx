@@ -10,8 +10,11 @@ const AdminDashboard = () => {
   const [newProduct, setNewProduct] = useState({
     title: "",
     price: "",
-    description: ""
+    description: "",
+    image: null
   });
+
+  const [preview, setPreview] = useState(null);
 
   const API = "http://localhost:5000/api/admin";
 
@@ -29,24 +32,48 @@ const AdminDashboard = () => {
       .then(data => setTotalRevenue(data.revenue));
   }, []);
 
+  // Handle Input Change
   const handleChange = (e) => {
-    setNewProduct({ ...newProduct, [e.target.name]: e.target.value });
+    if (e.target.name === "image") {
+      const file = e.target.files[0];
+      setNewProduct({ ...newProduct, image: file });
+
+      if (file) {
+        setPreview(URL.createObjectURL(file));
+      }
+    } else {
+      setNewProduct({ ...newProduct, [e.target.name]: e.target.value });
+    }
   };
 
+  // Handle Submit
   const handleAddProduct = async (e) => {
     e.preventDefault();
 
+    const formData = new FormData();
+    formData.append("title", newProduct.title);
+    formData.append("price", newProduct.price);
+    formData.append("description", newProduct.description);
+    formData.append("image", newProduct.image);
+
     const response = await fetch(`${API}/add-product`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newProduct)
+      body: formData
     });
 
     const data = await response.json();
 
     if (response.ok) {
       setSuccess(true);
-      setNewProduct({ title: "", price: "", description: "" });
+
+      setNewProduct({
+        title: "",
+        price: "",
+        description: "",
+        image: null
+      });
+
+      setPreview(null);
 
       setTimeout(() => {
         setSuccess(false);
@@ -81,7 +108,11 @@ const AdminDashboard = () => {
       <div className="product-form-section">
         <h2>Add New Product</h2>
 
-        {success && <div className="success-message">✅ Product Added Successfully!</div>}
+        {success && (
+          <div className="success-message">
+            ✅ Product Added Successfully!
+          </div>
+        )}
 
         <form onSubmit={handleAddProduct} className="product-form">
           <input
@@ -109,6 +140,27 @@ const AdminDashboard = () => {
             onChange={handleChange}
             required
           />
+
+          {/* Image Upload */}
+          <input
+            type="file"
+            name="image"
+            accept="image/*"
+            onChange={handleChange}
+            required
+          />
+
+          {/* Image Preview */}
+          {preview && (
+            <div style={{ marginTop: "10px" }}>
+              <img
+                src={preview}
+                alt="Preview"
+                width="150"
+                style={{ borderRadius: "8px" }}
+              />
+            </div>
+          )}
 
           <button type="submit">Add Product</button>
         </form>
