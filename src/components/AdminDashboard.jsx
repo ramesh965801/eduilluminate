@@ -1,108 +1,72 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // ✅ track login
+  const [loginData, setLoginData] = useState({ username: "", password: "" });
+  const [loginError, setLoginError] = useState("");
+
   const [totalProducts, setTotalProducts] = useState(0);
   const [totalPreBookings, setTotalPreBookings] = useState(0);
   const [totalRevenue, setTotalRevenue] = useState(0);
-
   const [products, setProducts] = useState([]);
   const [preBookings, setPreBookings] = useState([]);
-  // eslint-disable-next-line no-unused-vars
-  const [orders, setOrders] = useState([]);
-
   const [activeSection, setActiveSection] = useState("");
   const [success, setSuccess] = useState(false);
-
   const [newProduct, setNewProduct] = useState({
     title: "",
     price: "",
     description: "",
-    image: null
+    image: null,
   });
-
   const [preview, setPreview] = useState(null);
 
   const API = "http://localhost:5000/api/admin";
   const BASE_URL = "http://localhost:5000";
 
-  // ================= LOAD DASHBOARD DATA =================
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/immutability
-    loadDashboardData();
-  }, []);
+  // ================= LOGIN HANDLER =================
+  const handleLoginChange = (e) => {
+    setLoginData({ ...loginData, [e.target.name]: e.target.value });
+  };
 
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const { username, password } = loginData;
+
+    // Simple hardcoded login for demo
+    if (username === "admin" && password === "admin123") {
+      setIsLoggedIn(true);
+      setLoginError("");
+      loadDashboardData(); // load data after login
+    } else {
+      setLoginError("Invalid credentials!");
+    }
+  };
+
+  // ================= LOAD DASHBOARD DATA =================
   const loadDashboardData = async () => {
     try {
-      // Fetch products
       const productRes = await fetch(`${API}/products`);
       const productData = await productRes.json();
       setProducts(productData);
       setTotalProducts(productData.length);
 
-      // Fetch prebookings
-      const preRes = await fetch("http://localhost:5000/api/prebooking");
+      const preRes = await fetch(`${API}/prebookings`);
       const preData = await preRes.json();
       setPreBookings(preData);
       setTotalPreBookings(preData.length);
 
-      // Calculate Revenue
       let revenue = 0;
-      preData.forEach(item => {
-        if (item.price && item.quantity) {
-          revenue += Number(item.price) * Number(item.quantity);
-        }
+      preData.forEach((item) => {
+        if (item.price && item.quantity) revenue += Number(item.price) * Number(item.quantity);
       });
       setTotalRevenue(revenue);
-
     } catch (error) {
       console.log("Dashboard Load Error:", error);
     }
   };
 
-  // ================= FETCH FUNCTIONS =================
-  const fetchProducts = async () => {
-    const res = await fetch(`${API}/products`);
-    const data = await res.json();
-    setProducts(data);
-    setTotalProducts(data.length);
-    setActiveSection("products");
-  };
-
-  const fetchPreBookings = async () => {
-    try {
-      const res = await fetch("http://localhost:5000/api/prebooking");
-      const data = await res.json();
-      setPreBookings(data);
-      setTotalPreBookings(data.length);
-
-      // Recalculate revenue
-      let revenue = 0;
-      data.forEach(item => {
-        if (item.price && item.quantity) {
-          revenue += Number(item.price) * Number(item.quantity);
-        }
-      });
-      setTotalRevenue(revenue);
-
-      setActiveSection("prebookings");
-    } catch (error) {
-      console.log("Error fetching prebookings:", error);
-    }
-  };
-
-  const fetchOrders = async () => {
-    const res = await fetch(`${API}/orders`);
-    const data = await res.json();
-    setOrders(data);
-    setActiveSection("orders");
-  };
-
-  const showAddProduct = () => {
-    setActiveSection("addProduct");
-  };
-
-  // ================= ADD PRODUCT =================
+  // ================= PRODUCT FORM HANDLERS =================
   const handleChange = (e) => {
     if (e.target.name === "image") {
       const file = e.target.files[0];
@@ -115,7 +79,6 @@ const AdminDashboard = () => {
 
   const handleAddProduct = async (e) => {
     e.preventDefault();
-
     const formData = new FormData();
     formData.append("title", newProduct.title);
     formData.append("price", newProduct.price);
@@ -124,7 +87,7 @@ const AdminDashboard = () => {
 
     const response = await fetch(`${API}/add-product`, {
       method: "POST",
-      body: formData
+      body: formData,
     });
 
     if (response.ok) {
@@ -136,51 +99,77 @@ const AdminDashboard = () => {
     }
   };
 
-  // ================= DELETE =================
   const handleDelete = async (id, type) => {
     if (!window.confirm("Are you sure?")) return;
-
-    await fetch(`${API}/delete-${type}/${id}`, {
-      method: "DELETE"
-    });
-
+    await fetch(`${API}/delete-${type}/${id}`, { method: "DELETE" });
     loadDashboardData();
-
-    if (type === "product") fetchProducts();
-    if (type === "prebooking") fetchPreBookings();
-    if (type === "order") fetchOrders();
   };
 
+  const fetchProducts = async () => {
+    setActiveSection("products");
+  };
+
+  const fetchPreBookings = async () => {
+    setActiveSection("prebookings");
+  };
+
+  const showAddProduct = () => setActiveSection("addProduct");
+
+  // ================= RENDER =================
+  if (!isLoggedIn) {
+    return (
+      <div className="login-popup">
+        <form className="login-form" onSubmit={handleLogin}>
+          <h2>Admin Login</h2>
+          {loginError && <p className="error">{loginError}</p>}
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            value={loginData.username}
+            onChange={handleLoginChange}
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={loginData.password}
+            onChange={handleLoginChange}
+            required
+          />
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    );
+  }
+
+  // Dashboard UI
   return (
     <div className="admin-container">
       <h1 className="admin-title">Admin Dashboard</h1>
 
-      {/* ================= DASHBOARD CARDS ================= */}
+      {/* DASHBOARD CARDS */}
       <div className="dashboard-cards">
-
         <div className="dashboard-card" onClick={fetchProducts}>
           <h3>Total Products</h3>
           <h2>{totalProducts}</h2>
         </div>
-
         <div className="dashboard-card" onClick={fetchPreBookings}>
           <h3>Total Pre-Bookings</h3>
           <h2>{totalPreBookings}</h2>
         </div>
-
         <div className="dashboard-card">
           <h3>Total Revenue</h3>
           <h2>₹ {totalRevenue}</h2>
         </div>
-
         <div className="dashboard-card" onClick={showAddProduct}>
           <h3>Add Product</h3>
           <h2>+</h2>
         </div>
-
       </div>
 
-      {/* ================= PRODUCTS TABLE ================= */}
+      {/* PRODUCTS TABLE */}
       {activeSection === "products" && (
         <div className="details-section">
           <h2>Product Details</h2>
@@ -196,23 +185,17 @@ const AdminDashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {products.map(item => (
+              {products.map((item) => (
                 <tr key={item.id}>
                   <td>{item.id}</td>
                   <td>
-                    <img
-                      src={`${BASE_URL}/uploads/${item.image}`}
-                      alt=""
-                      width="60"
-                    />
+                    <img src={`${BASE_URL}/uploads/${item.image}`} alt="" width="60" />
                   </td>
                   <td>{item.title}</td>
                   <td>₹ {item.price}</td>
                   <td>{item.description}</td>
                   <td>
-                    <button onClick={() => handleDelete(item.id, "product")}>
-                      Delete
-                    </button>
+                    <button onClick={() => handleDelete(item.id, "product")}>Delete</button>
                   </td>
                 </tr>
               ))}
@@ -221,7 +204,7 @@ const AdminDashboard = () => {
         </div>
       )}
 
-      {/* ================= PREBOOKINGS TABLE ================= */}
+      {/* PREBOOKINGS TABLE */}
       {activeSection === "prebookings" && (
         <div className="details-section">
           <h2>Pre-Booking Details</h2>
@@ -240,87 +223,41 @@ const AdminDashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {preBookings.length > 0 ? (
-                preBookings.map(item => (
-                  <tr key={item.id}>
-                    <td>{item.id}</td>
-                    <td>{item.product_name}</td>
-                    <td>{item.name}</td>
-                    <td>{item.email}</td>
-                    <td>{item.phone}</td>
-                    <td>{item.quantity}</td>
-                    <td>{item.address}</td>
-                    <td>
-                      {item.created_at
-                        ? new Date(item.created_at).toLocaleString()
-                        : "-"}
-                    </td>
-                    <td>
-                      <button onClick={() => handleDelete(item.id, "prebooking")}>
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="9">No Pre-Bookings Found</td>
+              {preBookings.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.id}</td>
+                  <td>{item.product_name}</td>
+                  <td>{item.name}</td>
+                  <td>{item.email}</td>
+                  <td>{item.phone}</td>
+                  <td>{item.quantity}</td>
+                  <td>{item.address}</td>
+                  <td>{item.created_at ? new Date(item.created_at).toLocaleString() : "-"}</td>
+                  <td>
+                    <button onClick={() => handleDelete(item.id, "prebooking")}>Delete</button>
+                  </td>
                 </tr>
-              )}
+              ))}
             </tbody>
           </table>
         </div>
       )}
 
-      {/* ================= ADD PRODUCT FORM ================= */}
+      {/* ADD PRODUCT FORM */}
       {activeSection === "addProduct" && (
         <div className="product-form-section">
           <h2>Add New Product</h2>
-
           {success && <div>✅ Product Added Successfully!</div>}
-
           <form onSubmit={handleAddProduct}>
-            <input
-              type="text"
-              name="title"
-              placeholder="Product Title"
-              value={newProduct.title}
-              onChange={handleChange}
-              required
-            />
-
-            <input
-              type="number"
-              name="price"
-              placeholder="Price"
-              value={newProduct.price}
-              onChange={handleChange}
-              required
-            />
-
-            <textarea
-              name="description"
-              placeholder="Description"
-              value={newProduct.description}
-              onChange={handleChange}
-              required
-            />
-
-            <input
-              type="file"
-              name="image"
-              accept="image/*"
-              onChange={handleChange}
-              required
-            />
-
+            <input type="text" name="title" placeholder="Product Title" value={newProduct.title} onChange={handleChange} required />
+            <input type="number" name="price" placeholder="Price" value={newProduct.price} onChange={handleChange} required />
+            <textarea name="description" placeholder="Description" value={newProduct.description} onChange={handleChange} required />
+            <input type="file" name="image" accept="image/*" onChange={handleChange} required />
             {preview && <img src={preview} alt="Preview" width="100" />}
-
             <button type="submit">Add Product</button>
           </form>
         </div>
       )}
-
     </div>
   );
 };
