@@ -10,12 +10,14 @@ import ProductsPage from "./pages/ProductsPage";
 import Aboutus from "./pages/Aboutus";
 import PreBooking from "./components/PreBooking";
 import AdminDashboard from "./components/AdminDashboard";
+import Products from "./components/Products";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/products" element={<Products />} />
         <Route path="/services" element={<Services />} />
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/testimonial" element={<Testimonialpage />} />
