@@ -1,22 +1,16 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
-require("dotenv").config(); // load .env variables
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-// Static folder for images
-app.use("/uploads", express.static(path.join(__dirname, process.env.UPLOAD_DIR)));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Routes
-app.use("/api/admin", require("./routes/adminRoutes"));
-app.use("/api/prebooking", require("./routes/prebooking"));
+app.use("/api/admin", require("./routes/admin"));
 
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+app.listen(5000, () => {
+  console.log("Server running on port 5000");
 });
