@@ -26,7 +26,7 @@ function App() {
         <Route path="/aboutus" element={<Aboutus />} />
        <Route path="/prebooking/:id" element={<PreBooking />} />
 
-        <Route path="/admin123AvhfGrsFouTRseoPW" element={<AdminDashboard />} />
+        <Route path="/admin123AvhfGrsFouTRseoPWytrsgfrhiokb" element={<AdminDashboard />} />
 
       </Routes>
     </Router>
