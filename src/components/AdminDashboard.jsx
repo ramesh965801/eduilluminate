@@ -33,7 +33,7 @@ const BASE_URL = import.meta.env.VITE_API_URL;
     const { username, password } = loginData;
 
     // Hardcoded demo login
-    if (username === "admin" && password === "admin123") {
+    if (username === "admin" && password === "Admin@123") {
       setIsLoggedIn(true);
       setLoginError("");
       loadDashboardData();

@@ -93,13 +93,26 @@ const ProductDetails = () => {
 
             <p>{product.description}</p>
 
-           {/* <h3 className="price">
-  {product.price ? `₹${product.price}` : "Price yet to be released"}
-</h3> */}
+          
+<div className="price-box">
 
-<h3 className="price">
-  Price yet to be released
-</h3>
+  <span className="old-price">
+    ₹19,998.67
+  </span>
+
+  <span className="new-price">
+    ₹14,999
+  </span>
+
+  <span className="discount">
+    25% OFF
+  </span>
+
+</div>
+
+<p className="exclusive-offer">
+  🔥 Exclusive offer for first 15 customers
+</p>
 
             <button
               className="action-btn"
