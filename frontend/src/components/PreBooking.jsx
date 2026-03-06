@@ -79,7 +79,7 @@ const PreBooking = () => {
 
       if (res.ok && (data.success || data.id)) {
 
-        alert(`✅ Pre-Booking Successful!\nBooking ID: ${data.bookingId || data.id}`);
+        alert(`✅ Pre-Booking Successful!`);
 
         setFormData({
           name: "",
